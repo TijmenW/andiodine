@@ -40,5 +40,29 @@
                 <action android:name="android.net.VpnService"/>
             </intent-filter>
         </service>
+
+        <!--Tasker-->
+        <!-- This is the real Activity implementation but it is not exposed directly. -->
+        <activity
+            android:name=".tasker.EditActivity"
+            android:exported="false"
+            android:label="@string/app_name"
+            android:uiOptions="splitActionBarWhenNarrow"
+            android:windowSoftInputMode="adjustResize">
+        </activity>
+        <!-- This is the activity-alias, which the host perceives as being the plug-in's Edit Activity.
+             This layer of indirection helps ensure the public API for the plug-in is stable.  -->
+        <activity-alias
+            android:name=".ui.activity.PluginActivity"
+            android:exported="true"
+            android:icon="@drawable/logo"
+            android:label="@string/plugin_name"
+            android:targetActivity=".tasker.EditActivity">
+            <intent-filter>
+                <!-- For a plug-in setting, use EDIT_SETTING instead. -->
+                <action android:name="com.twofortyfouram.locale.intent.action.EDIT_CONDITION"/>
+            </intent-filter>
+        </activity-alias>
+
     </application>
 </manifest>
