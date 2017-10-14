@@ -1,3 +1,9 @@
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
 buildscript {
     repositories {
         jcenter()
@@ -35,4 +41,8 @@ android {
             path 'jni/Android.mk'
         }
     }
+}
+
+dependencies {
+    compile group:'com.twofortyfouram', name:'android-plugin-client-sdk-for-locale', version:'[4.0.3, 5.0['
 }
