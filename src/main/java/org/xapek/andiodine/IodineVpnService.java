@@ -12,6 +12,8 @@ import android.net.NetworkInfo;
 import android.net.VpnService;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import org.xapek.andiodine.config.ConfigDatabase;
@@ -38,6 +40,7 @@ public class IodineVpnService extends VpnService implements Runnable {
 
     private static final String TAG = "VPN_SERVICE";
 
+    @Nullable
     public static IodineVpnService instance = null;
 
     /**
@@ -98,12 +101,15 @@ public class IodineVpnService extends VpnService implements Runnable {
      */
     public static final String ACTION_STATUS_ERROR = "org.xapek.andiodine.IodineVpnService.STATUS_ERROR";
 
+    @Nullable
     private Thread mThread;
     private ConfigDatabase configDatabase;
+    @Nullable
     private IodineConfiguration mConfiguration;
+    @Nullable
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(Context context, @NonNull Intent intent) {
             if (ACTION_CONTROL_DISCONNECT.equals(intent.getAction())) {
                 shutdown();
             } else if (ACTION_CONTROL_UPDATE.equals(intent.getAction())) {
@@ -135,8 +141,10 @@ public class IodineVpnService extends VpnService implements Runnable {
 
     private String currentActionStatus = ACTION_STATUS_IDLE;
 
+    @Nullable
     private Long currentConfigurationId = null;
 
+    @Nullable
     private String currentMessage = null;
 
     @Override

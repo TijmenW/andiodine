@@ -1,6 +1,7 @@
 package org.xapek.andiodine.preferences;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -16,8 +17,9 @@ public class SpinnerPreference extends AbstractPreference {
 		mValues = values;
 	}
 
-	@Override
-	protected View getListItemView(Context context) {
+	@NonNull
+    @Override
+	protected View getListItemView(@NonNull Context context) {
 		Spinner view = new Spinner(context);
 		view.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, mValues));
 

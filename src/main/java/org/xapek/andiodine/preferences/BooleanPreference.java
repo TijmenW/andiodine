@@ -1,6 +1,7 @@
 package org.xapek.andiodine.preferences;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -15,8 +16,9 @@ public class BooleanPreference extends AbstractPreference {
         super(preferenceActivity, title, helpMsgId, key);
     }
 
+    @NonNull
     @Override
-    protected View getListItemView(Context context) {
+    protected View getListItemView(@NonNull Context context) {
         CheckBox view = new CheckBox(context);
         view.setText(context.getString(R.string.enable) + " " + getTitle());
         Log.d(TAG, "Status: " + getTitle() + " = " + getAsBoolean());

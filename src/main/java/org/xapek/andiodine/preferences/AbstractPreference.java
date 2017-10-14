@@ -1,6 +1,7 @@
 package org.xapek.andiodine.preferences;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 
@@ -18,6 +19,7 @@ abstract class AbstractPreference {
         mKey = key;
     }
 
+    @NonNull
     protected abstract View getListItemView(Context context);
 
     public void persist(final String value) {
@@ -43,6 +45,7 @@ abstract class AbstractPreference {
         return mTitle;
     }
 
+    @NonNull
     public String getMessage() {
         return mPreferenceActivity.getResources().getString(mHelpMsgId);
     }

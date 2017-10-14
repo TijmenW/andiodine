@@ -1,6 +1,7 @@
 package org.xapek.andiodine.config;
 
 import android.content.ContentValues;
+import android.support.annotation.NonNull;
 
 /**
  * Wrapper around ContentValues in Database
@@ -101,7 +102,7 @@ public class IodineConfiguration {
 		v.put(ConfigDatabase.COLUMN_CONF_NAMESERVER, nameserver);
 	}
 
-	public void setNameserverMode(NameserverMode nameserverMode) {
+	public void setNameserverMode(@NonNull NameserverMode nameserverMode) {
 		v.put(ConfigDatabase.COLUMN_CONF_NAMESERVER_MODE, nameserverMode.name());
 	}
 
@@ -113,7 +114,7 @@ public class IodineConfiguration {
 		v.put(ConfigDatabase.COLUMN_CONF_RAW_MODE, rawMode ? 1 : 0);
 	}
 
-	public void setRequestType(RequestType requestType) {
+	public void setRequestType(@NonNull RequestType requestType) {
 		v.put(ConfigDatabase.COLUMN_CONF_REQUEST_TYPE, requestType.name());
 	}
 
@@ -149,7 +150,8 @@ public class IodineConfiguration {
 		v.put(ConfigDatabase.COLUMN_CONF_RESPONSE_FRAGMENT_SIZE, responseFragmentSize);
 	}
 
-	@Override
+	@NonNull
+    @Override
 	public String toString() {
 		return "[IodineConfiguration name=" + getName() + "]";
 	}

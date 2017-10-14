@@ -2,6 +2,7 @@ package org.xapek.andiodine;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -102,7 +103,7 @@ public class IodinePref extends org.xapek.andiodine.preferences.PreferenceActivi
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menu_pref_delete) {
             // Delete current connection
             if (mIodineConfiguration.getId() != null) {

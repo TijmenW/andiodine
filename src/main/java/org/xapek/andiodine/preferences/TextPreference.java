@@ -1,6 +1,7 @@
 package org.xapek.andiodine.preferences;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -11,7 +12,8 @@ public class TextPreference extends AbstractPreference {
 		super(preferenceActivity, title, helpMsgId, key);
 	}
 
-	@Override
+	@NonNull
+    @Override
 	protected View getListItemView(Context context) {
 		final EditText view = new EditText(context);
 		view.setSingleLine();
@@ -26,7 +28,7 @@ public class TextPreference extends AbstractPreference {
 			}
 
 			@Override
-			public void afterTextChanged(Editable s) {
+			public void afterTextChanged(@NonNull Editable s) {
 				persist(s.toString());
 			}
 		});

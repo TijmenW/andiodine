@@ -48,6 +48,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
  
 public class TaskerPlugin {
@@ -84,7 +86,8 @@ public class TaskerPlugin {
 			VARIABLE_NAME_MAIN_PART_MATCH_EXPRESSION
 	;
 
-	private static Pattern			VARIABLE_NAME_MATCH_PATTERN = null; 
+	@Nullable
+    private static Pattern			VARIABLE_NAME_MATCH_PATTERN = null;
 	
 	/**
 	 *	@see #addVariableBundle(Bundle, Bundle)  
@@ -142,7 +145,7 @@ public class TaskerPlugin {
 
 	private final static String		BUNDLE_KEY_ENCODING_JSON_KEYS = BASE_KEY + ".JSON_ENCODED_KEYS";
 
-	public static boolean hostSupportsKeyEncoding( Bundle extrasFromHost, Encoding encoding ) {
+	public static boolean hostSupportsKeyEncoding(Bundle extrasFromHost, @NonNull Encoding encoding ) {
 		switch ( encoding ) {
 		case JSON:
 			return hostSupports( extrasFromHost, EXTRA_HOST_CAPABILITY_ENCODING_JSON );
@@ -183,7 +186,7 @@ public class TaskerPlugin {
  	* @param  intentToHost the intent being returned to the host
  	* @param  variableNames array of relevant variable names
  	*/
-	public static void addRelevantVariableList( Intent intentToHost, String [] variableNames ) {
+	public static void addRelevantVariableList(@NonNull Intent intentToHost, String [] variableNames ) {
 		intentToHost.putExtra( BUNDLE_KEY_RELEVANT_VARIABLES, variableNames );
 	}
 
@@ -194,7 +197,7 @@ public class TaskerPlugin {
  	* 
  	* @param  varName name to check
  	*/
-    public static boolean variableNameValid( String varName ) {
+    public static boolean variableNameValid(@Nullable String varName ) {
 
     	boolean validFlag = false;
     	
@@ -226,7 +229,8 @@ public class TaskerPlugin {
 	 * @param  fromHostIntentExtras usually from getIntent().getExtras() 
 	 * @return variableNames an array of relevant variable names
 	*/
-	public static String [] getRelevantVariableList( Bundle fromHostIntentExtras ) {
+	@NonNull
+    public static String [] getRelevantVariableList(Bundle fromHostIntentExtras ) {
 
 		String [] relevantVars = (String []) getBundleValueSafe( fromHostIntentExtras, BUNDLE_KEY_RELEVANT_VARIABLES, String [].class, "getRelevantVariableList" );
 		
@@ -252,7 +256,7 @@ public class TaskerPlugin {
 	 * @see Setting#hostSupportsVariableReturn(Bundle)
 	 * @see #variableNameValid(String)
 	*/
-	public static void addVariableBundle( Bundle resultExtras, Bundle variables ) {
+	public static void addVariableBundle(@NonNull Bundle resultExtras, Bundle variables ) {
 		resultExtras.putBundle( EXTRA_VARIABLES_BUNDLE, variables );
 	}
 	
@@ -270,7 +274,7 @@ public class TaskerPlugin {
 	 * @see #setVariableReplaceKeys(Bundle,String[])
 	 * @see #hostSupportsKeyEncoding(Bundle, Encoding)
 	*/
-	public static void setKeyEncoding( Bundle resultBundleToHost, String [] keys, Encoding encoding ) {
+	public static void setKeyEncoding(@NonNull Bundle resultBundleToHost, String [] keys, Encoding encoding ) {
 		if ( Encoding.JSON.equals( encoding ) )
 			addStringArrayToBundleAsString( 
 					keys, resultBundleToHost, BUNDLE_KEY_ENCODING_JSON_KEYS, "setValueEncoding"
@@ -383,7 +387,7 @@ public class TaskerPlugin {
 		 * @see #setVariableReplaceKeys(Bundle, String[])
 		*/
 
-		public static boolean hostSupportsOnFireVariableReplacement( Activity editActivity ) {
+		public static boolean hostSupportsOnFireVariableReplacement(@NonNull Activity editActivity ) {
 			
 			boolean supportedFlag = hostSupportsOnFireVariableReplacement( editActivity.getIntent().getExtras() );
 			
@@ -425,7 +429,7 @@ public class TaskerPlugin {
 	 	* @param  intentToHost the intent being returned to the host
 	 	* @param  timeoutMS 
 	 	*/
-		public static void requestTimeoutMS( Intent intentToHost, int timeoutMS ) {
+		public static void requestTimeoutMS(@NonNull Intent intentToHost, int timeoutMS ) {
 			if ( timeoutMS < 0 )
 				Log.w( TAG, "requestTimeoutMS: ignoring negative timeout (" + timeoutMS + ")" );
 			else {
@@ -450,7 +454,7 @@ public class TaskerPlugin {
 		 * @see #hostSupportsOnFireVariableReplacement(Bundle)
 		 * @see #setKeyEncoding(Bundle,String[],Encoding)
 		*/	
-		public static void setVariableReplaceKeys( Bundle resultBundleToHost, String [] listOfKeyNames ) {
+		public static void setVariableReplaceKeys(@NonNull Bundle resultBundleToHost, String [] listOfKeyNames ) {
 			addStringArrayToBundleAsString( 
 					listOfKeyNames, resultBundleToHost, BUNDLE_KEY_VARIABLE_REPLACE_STRINGS,
 					"setVariableReplaceKeys"
@@ -481,7 +485,7 @@ public class TaskerPlugin {
          * @param vars any variables that the plugin wants to set in the host
          * @see #hostSupportsSynchronousExecution(Bundle)
         */
-        public static boolean signalFinish( Context context, Intent originalFireIntent, int resultCode, Bundle vars ) {
+        public static boolean signalFinish(@NonNull Context context, @NonNull Intent originalFireIntent, int resultCode, @Nullable Bundle vars ) {
         
         	String errorPrefix = "signalFinish: ";
         
@@ -611,7 +615,7 @@ public class TaskerPlugin {
 		 * @see #addPassThroughMessageID
 		 * 
 		*/
-		public static void addPassThroughData( Intent requestQueryIntent, Bundle data ) {
+		public static void addPassThroughData(@NonNull Intent requestQueryIntent, Bundle data ) {
 			
 			Bundle passThroughBundle = retrieveOrCreatePassThroughBundle( requestQueryIntent );
 			
@@ -630,7 +634,8 @@ public class TaskerPlugin {
 		 * @see #hostSupportsRequestQueryDataPassThrough(Bundle)
 		 * @see #addPassThroughData(Intent,Bundle)
 		*/
-		public static Bundle retrievePassThroughData( Intent queryConditionIntent ) {
+		@Nullable
+        public static Bundle retrievePassThroughData(@NonNull Intent queryConditionIntent ) {
 			return (Bundle) getExtraValueSafe( 
 					queryConditionIntent, 
 					EXTRA_REQUEST_QUERY_PASS_THROUGH_DATA, 
@@ -654,7 +659,7 @@ public class TaskerPlugin {
 		 * @return an ID for the bundle so it can be identified and the caller verified when it is again received by the plugin
 		 * 
 		*/
-		public static int addPassThroughMessageID( Intent requestQueryIntent ) {
+		public static int addPassThroughMessageID(@NonNull Intent requestQueryIntent ) {
 			
 			Bundle passThroughBundle = retrieveOrCreatePassThroughBundle( requestQueryIntent );
 					
@@ -674,7 +679,7 @@ public class TaskerPlugin {
 		 * @see #hostSupportsRequestQueryDataPassThrough(Bundle)
 		 * @see #addPassThroughData(Intent,Bundle)
 		*/
-		public static int retrievePassThroughMessageID( Intent queryConditionIntent ) {
+		public static int retrievePassThroughMessageID(@NonNull Intent queryConditionIntent ) {
 	
 			int toReturn = -1;
 			
@@ -696,7 +701,7 @@ public class TaskerPlugin {
 		}
 		
 		// internal use
-		private static Bundle retrieveOrCreatePassThroughBundle( Intent requestQueryIntent ) {
+		private static Bundle retrieveOrCreatePassThroughBundle(@NonNull Intent requestQueryIntent ) {
 
 			Bundle passThroughBundle;
 			
@@ -721,7 +726,7 @@ public class TaskerPlugin {
 		 * @param  toPlugin the intent we're sending
 		 * @return capabilities one or more of the EXTRA_HOST_CAPABILITY_XXX flags 
 		*/
-		public static Intent addCapabilities( Intent toPlugin, int capabilities ) {
+		public static Intent addCapabilities(@NonNull Intent toPlugin, int capabilities ) {
 			return toPlugin.putExtra( EXTRA_HOST_CAPABILITIES, capabilities  );
 		}
 
@@ -733,7 +738,7 @@ public class TaskerPlugin {
 		* @param completionIntent intent which will signal the host that the plugin is finished.
 		* Implementation is host-dependent.
        	*/
-		public static void addCompletionIntent( Intent fireIntent, Intent completionIntent ) {
+		public static void addCompletionIntent(@NonNull Intent fireIntent, @NonNull Intent completionIntent ) {
 			fireIntent.putExtra( 
 				Setting.EXTRA_PLUGIN_COMPLETION_INTENT, 
                         	completionIntent.toUri( Intent.URI_INTENT_SCHEME )
@@ -747,7 +752,7 @@ public class TaskerPlugin {
        		  * @param completionIntent intent returned from the plugin when it finished.
        		  * @return resultCode measure of plugin success, defaults to UNKNOWN 
        	*/
-		public static int getSettingResultCode( Intent completionIntent ) {
+		public static int getSettingResultCode(@NonNull Intent completionIntent ) {
         
 			Integer val = (Integer) getExtraValueSafe( completionIntent, Setting.EXTRA_RESULT_CODE, Integer.class, "getSettingResultCode" );
 
@@ -764,7 +769,8 @@ public class TaskerPlugin {
 		 * @see #addCapabilities(Intent, int) 
 		*/
 
-		public static Bundle getVariablesBundle( Bundle resultExtras ) {
+		@NonNull
+        public static Bundle getVariablesBundle(Bundle resultExtras ) {
 			return (Bundle) getBundleValueSafe( 
 					resultExtras, EXTRA_VARIABLES_BUNDLE, Bundle.class, "getVariablesBundle" 
 			);
@@ -778,11 +784,12 @@ public class TaskerPlugin {
 		* that which the plugin requests.
 		* @see #REQUESTED_TIMEOUT_MS_NONE, REQUESTED_TIMEOUT_MS_MAX, REQUESTED_TIMEOUT_MS_NEVER
 		*/
-		public static void addHintTimeoutMS( Intent toPlugin, int timeoutMS ) {
+		public static void addHintTimeoutMS(@NonNull Intent toPlugin, int timeoutMS ) {
 			getHintsBundle( toPlugin, "addHintTimeoutMS" ).putInt( BUNDLE_KEY_HINT_TIMEOUT_MS, timeoutMS );
 		}
 
-		private static Bundle getHintsBundle( Intent intent, String funcName ) {
+		@Nullable
+        private static Bundle getHintsBundle(@NonNull Intent intent, String funcName ) {
 
 			Bundle hintsBundle = (Bundle) getExtraValueSafe( intent, EXTRA_HINTS_BUNDLE, Bundle.class, funcName );
 			
@@ -794,7 +801,7 @@ public class TaskerPlugin {
 			return hintsBundle;
 		}
 		
-		public static boolean haveRequestedTimeout( Bundle extrasFromPluginEditActivity ) {
+		public static boolean haveRequestedTimeout(@NonNull Bundle extrasFromPluginEditActivity ) {
 			return extrasFromPluginEditActivity.containsKey( Setting.EXTRA_REQUESTED_TIMEOUT );
 		}
 		
@@ -806,14 +813,16 @@ public class TaskerPlugin {
 			;
 		}
 		
-		public static String [] getSettingVariableReplaceKeys( Bundle fromPluginEditActivity ) {
+		@Nullable
+        public static String [] getSettingVariableReplaceKeys(Bundle fromPluginEditActivity ) {
 			return getStringArrayFromBundleString( 
 					fromPluginEditActivity, Setting.BUNDLE_KEY_VARIABLE_REPLACE_STRINGS,
 					"getSettingVariableReplaceKeys"
 			);
 		}
 		
-		public static String [] getKeysWithEncoding( Bundle fromPluginEditActivity, Encoding encoding ) {
+		@Nullable
+        public static String [] getKeysWithEncoding(Bundle fromPluginEditActivity, Encoding encoding ) {
 
 			String [] toReturn = null;
 			
@@ -828,30 +837,31 @@ public class TaskerPlugin {
 			return toReturn;
 		}
 		
-		public static boolean haveRelevantVariables( Bundle b ) {
+		public static boolean haveRelevantVariables(@NonNull Bundle b ) {
 			return b.containsKey( BUNDLE_KEY_RELEVANT_VARIABLES );
 		}
 		
-		public static void cleanRelevantVariables( Bundle b ) {
+		public static void cleanRelevantVariables(@NonNull Bundle b ) {
 			b.remove( BUNDLE_KEY_RELEVANT_VARIABLES );
 		}
 
-		public static void cleanHints( Bundle extras ) {
+		public static void cleanHints(@NonNull Bundle extras ) {
 			extras.remove( TaskerPlugin.EXTRA_HINTS_BUNDLE );
 		}
 
-		public static void cleanRequestedTimeout( Bundle extras ) {
+		public static void cleanRequestedTimeout(@NonNull Bundle extras ) {
 			extras.remove( Setting.EXTRA_REQUESTED_TIMEOUT );
 		}
 		
-		public static void cleanSettingReplaceVariables( Bundle b ) {
+		public static void cleanSettingReplaceVariables(@NonNull Bundle b ) {
 			b.remove( Setting.BUNDLE_KEY_VARIABLE_REPLACE_STRINGS );
 		}
 	}
 	
 	// ---------------------------------- HELPER FUNCTIONS -------------------------------- //
 
-	private static Object getBundleValueSafe( Bundle b, String key, Class<?> expectedClass, String funcName ) {
+	@Nullable
+    private static Object getBundleValueSafe(@Nullable Bundle b, String key, @NonNull Class<?> expectedClass, String funcName ) {
 		Object value = null;
 		
 		if ( b != null ) {
@@ -868,7 +878,7 @@ public class TaskerPlugin {
 		return value;
 	}
 	
-	private static Object getExtraValueSafe( Intent i, String key, Class<?> expectedClass, String funcName ) {
+	private static Object getExtraValueSafe(@NonNull Intent i, String key, @NonNull Class<?> expectedClass, String funcName ) {
 		return ( i.hasExtra( key ) ) ?
                  getBundleValueSafe( i.getExtras(), key, expectedClass, funcName ) :
                  null;
@@ -882,7 +892,7 @@ public class TaskerPlugin {
 			;
 	}
 	
-    public static int getPackageVersionCode( PackageManager pm, String packageName ) {
+    public static int getPackageVersionCode(@Nullable PackageManager pm, String packageName ) {
 
     	int code = -1;
     	
@@ -900,7 +910,7 @@ public class TaskerPlugin {
     	return code;
     }
 
-    private static boolean variableNameIsLocal( String varName ) {
+    private static boolean variableNameIsLocal(@NonNull String varName ) {
 
     	int digitCount = 0;
     	int length = varName.length();
@@ -920,7 +930,8 @@ public class TaskerPlugin {
     	return true;
     }
 
-    private static String [] getStringArrayFromBundleString( Bundle bundle, String key, String funcName ) {
+    @Nullable
+    private static String [] getStringArrayFromBundleString(Bundle bundle, String key, String funcName ) {
 
 		String spec = (String) getBundleValueSafe( bundle, key, String.class, funcName );
 
@@ -932,7 +943,7 @@ public class TaskerPlugin {
 		return toReturn;
 	}
 
-	private static void addStringArrayToBundleAsString( String [] toAdd, Bundle bundle, String key, String callerName ) {
+	private static void addStringArrayToBundleAsString(@Nullable String [] toAdd, @NonNull Bundle bundle, String key, String callerName ) {
 		
 		StringBuilder builder = new StringBuilder();
 		
@@ -956,9 +967,11 @@ public class TaskerPlugin {
 	}
 
     // state tracking for random number sequence
+    @Nullable
     private static int [] 		lastRandomsSeen = null;
 	private static int 			randomInsertPointer = 0;
-	private static SecureRandom sr = null;
+	@Nullable
+    private static SecureRandom sr = null;
 	
 	/**
 	 * Generate a sequence of secure random positive integers which is guaranteed not to repeat

@@ -5,6 +5,7 @@ import android.app.ListActivity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,6 +28,7 @@ public abstract class PreferenceActivity extends ListActivity {
 
     private static class DialogPreferenceAdapter extends ArrayAdapter<AbstractPreference> {
 
+        @NonNull
         private final LayoutInflater mInflater;
 
         private static class HelpOnClickListener implements OnClickListener {
@@ -37,7 +39,7 @@ public abstract class PreferenceActivity extends ListActivity {
             }
 
             @Override
-            public void onClick(View v) {
+            public void onClick(@NonNull View v) {
                 new AlertDialog.Builder(v.getContext())//
                         .setTitle(p.getTitle())//
                         .setMessage(p.getMessage())//
@@ -45,14 +47,15 @@ public abstract class PreferenceActivity extends ListActivity {
             }
         }
 
-        public DialogPreferenceAdapter(Context context, List<AbstractPreference> preferences) {
+        public DialogPreferenceAdapter(@NonNull Context context, @NonNull List<AbstractPreference> preferences) {
             super(context, -1, preferences);
             mInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         }
 
+        @NonNull
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(int position, View convertView, @NonNull ViewGroup parent) {
             AbstractPreference item = getItem(position);
             View rowView = mInflater.inflate(R.layout.rowlayout, parent, false);
             LinearLayout content = (LinearLayout) rowView.findViewById(R.id.rowlayout_content);

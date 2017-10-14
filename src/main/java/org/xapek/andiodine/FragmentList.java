@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.DataSetObserver;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -61,7 +62,7 @@ public class FragmentList extends Fragment {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(int position, View convertView, @NonNull ViewGroup parent) {
             final IodineConfiguration item = getItem(position);
             View view = View.inflate(parent.getContext(), R.layout.configitem, null);
             ((TextView) view.findViewById(R.id.configitem_text_name)).setText(item.getName());
@@ -110,7 +111,7 @@ public class FragmentList extends Fragment {
 
     private final BroadcastReceiver broadcastReceiverConfigurationChanged = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(Context context, @NonNull Intent intent) {
             if (IodinePref.ACTION_CONFIGURATION_CHANGED.equals(intent.getAction())) {
                 // CONFIGURATION_CHANGED
                 mAdapter.reload();
@@ -143,23 +144,23 @@ public class FragmentList extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_list, null);
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_list, menu);
     }
 
-    private void vpnPreferences(IodineConfiguration item) {
+    private void vpnPreferences(@NonNull IodineConfiguration item) {
         Intent intent = new Intent(getActivity(), IodinePref.class);
         intent.putExtra(IodinePref.EXTRA_CONFIGURATION_ID, item.getId());
         startActivity(intent);
     }
 
-    private void vpnServiceConnect(IodineConfiguration configuration) {
+    private void vpnServiceConnect(@NonNull IodineConfiguration configuration) {
         Intent intent = IodineVpnService.prepare(getActivity());
         mSelectedConfiguration = configuration;
         if (intent != null) {
@@ -180,7 +181,7 @@ public class FragmentList extends Fragment {
                     }) //
                     .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                        public void onClick(@NonNull DialogInterface dialog, int which) {
                             dialog.dismiss();
                         }
                     }) //
@@ -197,7 +198,7 @@ public class FragmentList extends Fragment {
         }
     }
 
-    private void vpnServiceConnect2(IodineConfiguration configuration) {
+    private void vpnServiceConnect2(@NonNull IodineConfiguration configuration) {
         Log.d(TAG, "Call VPN Service for configuration: " + configuration.getId());
         Intent intent = new Intent(IodineVpnService.ACTION_CONTROL_CONNECT);
         intent.putExtra(IodineVpnService.EXTRA_CONFIGURATION_ID, configuration.getId());

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,7 +26,7 @@ public class IodineMain extends Activity {
 
     private final BroadcastReceiver broadcastReceiverStatusUpdates = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(Context context, @NonNull Intent intent) {
             Log.d(TAG, "Got intent: " + intent);
             if (IodineVpnService.ACTION_STATUS_ERROR.equals(intent.getAction())) {
                 // Switch to List of Configurations Fragment
@@ -94,7 +95,7 @@ public class IodineMain extends Activity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menu_main_about) {
             Scanner scanner = new Scanner(getResources().openRawResource(R.raw.license));
             scanner.useDelimiter("\\A");

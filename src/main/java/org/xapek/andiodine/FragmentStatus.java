@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
@@ -28,7 +29,7 @@ public class FragmentStatus extends Fragment {
 
     private final BroadcastReceiver broadcastReceiverStatusUpdates = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(Context context, @NonNull Intent intent) {
             Log.d(TAG, "Got intent: " + intent);
             if (IodineVpnService.ACTION_STATUS_ERROR.equals(intent.getAction())) {
             	final TextView message = new TextView(context);
@@ -57,7 +58,7 @@ public class FragmentStatus extends Fragment {
 
     private final BroadcastReceiver broadcastReceiverLogMessages = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(Context context, @NonNull Intent intent) {
             if (IodineClient.ACTION_LOG_MESSAGE.equals(intent.getAction())) {
             	final String newLogEntry = intent.getStringExtra(IodineClient.EXTRA_MESSAGE);
                 if (!".".equals(newLogEntry)) // Suppress newline for progress indicator'.'
@@ -109,7 +110,7 @@ public class FragmentStatus extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_status, null);
     }
 

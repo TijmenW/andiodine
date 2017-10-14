@@ -1,6 +1,7 @@
 package org.xapek.andiodine;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 public class IodineClient {
@@ -12,8 +13,10 @@ public class IodineClient {
                                      String password, int request_hostname_size, int response_fragment_size,
                                      String request_type);
 
+    @NonNull
     public static native String getIp();
 
+    @NonNull
     public static native String getRemoteIp();
 
     public static native int getNetbits();
@@ -24,6 +27,7 @@ public class IodineClient {
 
     public static native void tunnelInterrupt();
 
+    @NonNull
     public static native String getPropertyNetDns1();
 
     /**

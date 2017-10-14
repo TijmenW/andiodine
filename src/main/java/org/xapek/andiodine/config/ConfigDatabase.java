@@ -7,6 +7,7 @@ import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -55,7 +56,7 @@ public class ConfigDatabase extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(@NonNull SQLiteDatabase db) {
         db.execSQL(createStmt);
     }
 
@@ -63,7 +64,7 @@ public class ConfigDatabase extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
 
-    public void insert(ContentValues config) throws SQLException {
+    public void insert(@NonNull ContentValues config) throws SQLException {
         if (config.getAsLong(COLUMN_CONF_ID) != null)
             throw new SQLException("id must be null for update");
         SQLiteDatabase writableDatabase = getWritableDatabase();
@@ -73,7 +74,7 @@ public class ConfigDatabase extends SQLiteOpenHelper {
         Log.d(TAG, "Insert id=" + id);
     }
 
-    public int update(ContentValues config) throws SQLException {
+    public int update(@NonNull ContentValues config) throws SQLException {
         if (config.getAsLong(COLUMN_CONF_ID) == null)
             throw new SQLException("id must NOT be null for update");
         SQLiteDatabase writableDatabase = getWritableDatabase();
@@ -84,7 +85,7 @@ public class ConfigDatabase extends SQLiteOpenHelper {
         return rows;
     }
 
-    public void delete(ContentValues config) throws SQLException {
+    public void delete(@NonNull ContentValues config) throws SQLException {
         if (config.getAsLong(COLUMN_CONF_ID) == null)
             throw new SQLException("id must NOT be null for delete");
         SQLiteDatabase writableDatabase = getWritableDatabase();
@@ -93,7 +94,8 @@ public class ConfigDatabase extends SQLiteOpenHelper {
         writableDatabase.close();
     }
 
-    public IodineConfiguration selectById(Long id) throws SQLException {
+    @NonNull
+    public IodineConfiguration selectById(@NonNull Long id) throws SQLException {
         ContentValues v = new ContentValues();
         SQLiteDatabase readableDatabase = getReadableDatabase();
         Cursor query = readableDatabase.query(TABLE_NAME_CONF, null, COLUMN_CONF_ID + " = ?",
@@ -105,6 +107,7 @@ public class ConfigDatabase extends SQLiteOpenHelper {
 		return iodineConfiguration;
     }
 
+    @NonNull
     public List<IodineConfiguration> selectAll() throws SQLException {
         List<IodineConfiguration> configurations = new ArrayList<IodineConfiguration>();
         SQLiteDatabase readableDatabase = getReadableDatabase();
@@ -118,7 +121,7 @@ public class ConfigDatabase extends SQLiteOpenHelper {
         return configurations;
     }
 
-    public void insertOrUpdate(ContentValues config) {
+    public void insertOrUpdate(@NonNull ContentValues config) {
         try {
             update(config);
         } catch (SQLException e) {
