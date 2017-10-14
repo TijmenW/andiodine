@@ -324,9 +324,9 @@ public class IodineVpnService extends VpnService implements Runnable {
         Builder b = new Builder();
         b.setSession("Iodine VPN Service");
 
-        String ip = IodineClient.getIp();
-        int netbits = IodineClient.getNetbits();
-        int mtu = IodineClient.getMtu();
+        final String ip = IodineClient.getIp();
+        final int netbits = IodineClient.getNetbits();
+        final int mtu = IodineClient.getMtu();
         Log.d(TAG, "Build tunnel for configuration: ip=" + ip + " netbits=" + netbits + " mtu=" + mtu);
 
         String[] ipBytesString = ip.split("\\.");
