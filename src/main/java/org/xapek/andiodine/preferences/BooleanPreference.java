@@ -11,12 +11,12 @@ import org.xapek.andiodine.R;
 
 public class BooleanPreference extends AbstractPreference {
 
-    public BooleanPreference(PreferenceActivity preferenceActivity, String title, int helpMsgId, String key) {
+    public BooleanPreference(ContentValuesStore preferenceActivity, String title, int helpMsgId, String key) {
         super(preferenceActivity, title, helpMsgId, key);
     }
 
     @Override
-    protected View getListItemView(Context context) {
+    public View getListItemView(Context context) {
         CheckBox view = new CheckBox(context);
         view.setText(context.getString(R.string.enable) + " " + getTitle());
         Log.d(TAG, "Status: " + getTitle() + " = " + getAsBoolean());

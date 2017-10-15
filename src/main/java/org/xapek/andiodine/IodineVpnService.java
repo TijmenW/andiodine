@@ -16,6 +16,8 @@ import android.util.Log;
 
 import org.xapek.andiodine.config.ConfigDatabase;
 import org.xapek.andiodine.config.IodineConfiguration;
+import org.xapek.andiodine.tasker.EditActivity;
+import org.xapek.andiodine.tasker.TunnelStatus;
 
 import java.io.IOException;
 import java.net.Inet4Address;
@@ -208,6 +210,7 @@ public class IodineVpnService extends VpnService implements Runnable {
             }
             Log.d(TAG, "Send: " + intent);
             sendBroadcast(intent);
+
         }
     }
 
@@ -395,7 +398,19 @@ public class IodineVpnService extends VpnService implements Runnable {
         setStatus(ACTION_STATUS_CONNECTED, mConfiguration.getId(), null);
 
 		Log.d(TAG, "Tunnel active");
+
+        TunnelStatus.AddActive(mConfiguration);
+
+        //todo: move to setStatus or somewhere else
+        sendBroadcast(new Intent(
+                com.twofortyfouram.locale.api.Intent.ACTION_REQUEST_QUERY).putExtra(
+                com.twofortyfouram.locale.api.Intent.EXTRA_STRING_ACTIVITY_CLASS_NAME,
+                EditActivity.class.getName()));
+
 		IodineClient.tunnel(tun_fd);
+
+        TunnelStatus.RemoveActive(mConfiguration);
+
 		try {
 			ParcelFileDescriptor.adoptFd(tun_fd).close();
 		} catch (IOException e) {

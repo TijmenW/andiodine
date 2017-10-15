@@ -56,13 +56,28 @@
             android:name=".ui.activity.PluginActivity"
             android:exported="true"
             android:icon="@drawable/logo"
-            android:label="@string/plugin_name"
+            android:label="Tasker Plugin"
             android:targetActivity=".tasker.EditActivity">
             <intent-filter>
                 <!-- For a plug-in setting, use EDIT_SETTING instead. -->
                 <action android:name="com.twofortyfouram.locale.intent.action.EDIT_CONDITION"/>
             </intent-filter>
         </activity-alias>
+
+        <receiver
+            android:name=".tasker.PluginConditionReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.twofortyfouram.locale.intent.action.QUERY_CONDITION"/>
+            </intent-filter>
+        </receiver>
+        <!--<receiver
+            android:name=".tasker.PluginConditionReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.twofortyfouram.locale.intent.action.FIRE_SETTING"/>
+            </intent-filter>
+        </receiver>-->
 
     </application>
 </manifest>

@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import org.xapek.andiodine.R;
@@ -20,10 +19,35 @@ import org.xapek.andiodine.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class PreferenceActivity extends ListActivity {
+public abstract class PreferenceActivity extends ListActivity implements ContentValuesStore {
     private ArrayList<AbstractPreference> mPreferences;
 
     private ContentValues mContentValues = new ContentValues();
+
+    @Override
+    public int CVgetAsInt(String key) {
+        return CVgetAsInteger(key);
+    }
+
+    @Override
+    public Integer CVgetAsInteger(String key) {
+        return mContentValues.getAsInteger(key);
+    }
+
+    @Override
+    public String CVgetAsString(String key) {
+        return mContentValues.getAsString(key);
+    }
+
+    @Override
+    public void CVput(String key, String value) {
+        mContentValues.put(key,value);
+    }
+
+    @Override
+    public void CVput(String key, int value) {
+        mContentValues.put(key,value);
+    }
 
     private static class DialogPreferenceAdapter extends ArrayAdapter<AbstractPreference> {
 

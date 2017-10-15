@@ -10,14 +10,14 @@ import android.widget.Spinner;
 public class SpinnerPreference extends AbstractPreference {
 	private final String[] mValues;
 
-	public SpinnerPreference(PreferenceActivity preferenceActivity, String key, String title, int helpResId,
+	public SpinnerPreference(ContentValuesStore preferenceActivity, String key, String title, int helpResId,
 			String[] values) {
 		super(preferenceActivity, title, helpResId, key);
 		mValues = values;
 	}
 
 	@Override
-	protected View getListItemView(Context context) {
+	public View getListItemView(Context context) {
 		Spinner view = new Spinner(context);
 		view.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, mValues));
 

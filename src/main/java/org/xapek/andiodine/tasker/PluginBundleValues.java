@@ -42,4 +42,23 @@ public final class PluginBundleValues {
         result.putString(BUNDLE_name, name);
         return result;
     }
+
+    public static String getName(final Bundle bundle) {
+        final String bName = bundle.getString(BUNDLE_name);
+        final String none = "";
+        if (bName == null)
+            return none;
+        if (bName.isEmpty())
+            return none;
+        Log.v(TAG,"return name");
+        return bName;
+    }
+
+    public static boolean getActive(@NonNull final Bundle bundle) {
+        boolean b1 = bundle.getBoolean(BUNDLE_active, false);
+        boolean b2 = bundle.getBoolean(BUNDLE_active, true);
+        if (b1 == b2)
+            return b1;
+        throw new IllegalStateException("Bundle without BUNDLE_name");
+    }
 }

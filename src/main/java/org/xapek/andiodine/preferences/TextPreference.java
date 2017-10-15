@@ -7,12 +7,12 @@ import android.view.View;
 import android.widget.EditText;
 
 public class TextPreference extends AbstractPreference {
-	public TextPreference(PreferenceActivity preferenceActivity, String title, int helpMsgId, String key) {
+	public TextPreference(ContentValuesStore preferenceActivity, String title, int helpMsgId, String key) {
 		super(preferenceActivity, title, helpMsgId, key);
 	}
 
 	@Override
-	protected View getListItemView(Context context) {
+	public View getListItemView(Context context) {
 		final EditText view = new EditText(context);
 		view.setSingleLine();
 		view.setText(getAsString());
