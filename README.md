@@ -1,5 +1,7 @@
 ![Logo](src/main/res/drawable/logo.png)
 
+````10-15 22:59:06.763 29395-29395/? W/Tasker: 22.59.06#M: warning: queryPluginsWithCode: class: com.twofortyfouram.locale.example.condition.display.ui.activity.EditActivity: unknown class````
+
 This is a port of iodine (http://code.kryo.se/iodine/) to the Android VPN Framework.
 It doesn't require "root" on the phone.  
 Downloads are available on [F-droid](https://f-droid.org/packages/org.xapek.andiodine/).
