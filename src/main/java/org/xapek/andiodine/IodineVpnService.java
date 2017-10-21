@@ -399,13 +399,14 @@ public class IodineVpnService extends VpnService implements Runnable {
 
 		Log.d(TAG, "Tunnel active");
 
-        TunnelStatus.AddActive(mConfiguration);
-
         //todo: move to setStatus or somewhere else
         sendBroadcast(new Intent(
                 com.twofortyfouram.locale.api.Intent.ACTION_REQUEST_QUERY).putExtra(
                 com.twofortyfouram.locale.api.Intent.EXTRA_STRING_ACTIVITY_CLASS_NAME,
                 EditActivity.class.getName()));
+
+        //todo: also move to setStatus or somewhere else
+        TunnelStatus.AddActive(mConfiguration);
 
 		IodineClient.tunnel(tun_fd);
 

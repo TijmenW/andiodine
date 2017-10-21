@@ -172,19 +172,7 @@ public class EditActivity extends AbstractPluginActivity implements ContentValue
     @Nullable
     @Override
     public Integer CVgetAsInteger(String key) {
-        int v;
-        v = mBundle.getInt(key, 44);  //https://xkcd.com/221/
-        if (v == 44) {
-            v = mBundle.getInt(key, 55);
-            if (v == 55) {
-                final boolean b1 = mBundle.getBoolean(key, false);
-                final boolean b2 = mBundle.getBoolean(key, true);
-                if (b1==b2)
-                    return b1?1:0;
-                return null;
-            }
-        }
-        return v;
+        return getInteger(mBundle,key);
     }
 
     @Override
