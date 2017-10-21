@@ -125,7 +125,7 @@ public class IodineConfiguration {
 		v.put(ConfigDatabase.COLUMN_CONF_TUNNEL_NAMESERVER, tunnelNameserver);
 	}
 
-	//todo:ID is never set
+	//todo: see https://sqlite.org/autoinc.html and put a alter table auto increment statement in code
 	public void setId(Long id) {
 		v.put(ConfigDatabase.COLUMN_CONF_ID, id);
 	}
