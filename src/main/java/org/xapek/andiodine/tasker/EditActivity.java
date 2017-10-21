@@ -101,6 +101,12 @@ public class EditActivity extends AbstractPluginActivity implements ContentValue
     }
 
     @Override
+    protected void onDestroy() {
+        database.close();
+        super.onDestroy();
+    }
+
+    @Override
     public boolean isBundleValid(@NonNull Bundle bundle) {
         return PluginBundleValues.isBundleValid(bundle);
     }
