@@ -63,8 +63,8 @@ public final class PluginBundleValues {
     public static boolean getActive(@NonNull final Bundle bundle) throws IllegalArgumentException {
         try {
             return getBooleanInt(bundle, BUNDLE_active);
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Bundle without BUNDLE_name: " + e.toString());
+        } catch (InvalidKeyException e) {
+            throw new IllegalArgumentException("Bundle without BUNDLE_name", e);
         }
     }
 
