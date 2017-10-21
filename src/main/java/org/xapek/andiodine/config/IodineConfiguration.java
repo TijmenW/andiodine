@@ -125,6 +125,7 @@ public class IodineConfiguration {
 		v.put(ConfigDatabase.COLUMN_CONF_TUNNEL_NAMESERVER, tunnelNameserver);
 	}
 
+	//todo:ID is never set
 	public void setId(Long id) {
 		v.put(ConfigDatabase.COLUMN_CONF_ID, id);
 	}
